@@ -1,0 +1,42 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+html{
+}
+html,body{
+  width: 100%;
+  height: 100%;
+}
+header{
+  padding: 5px 10px;
+  font-size: 16px;
+  margin: 0;
+  box-sizing: border-box;
+  color: #dccf8f;
+  height:30px;
+  white-space: nowrap;
+  background-image: url("../lib/highlight-js/pojoaque.jpg");
+}
+.con{
+  display: flex;
+  justify-content: space-between;
+  height: calc(100% - 30px);
+  min-width: calc(1000px / 1.5);
+}
+#edit-area,.preview-area{
+  margin: 5px;
+  height: calc(100% - 10px);
+  width: calc(50% - 15px);
+  font-size: 10px;
+}
+#edit-area{
+  box-sizing: border-box;
+  resize: none;
+  padding: 5px;
+}
+.preview-area{
+  overflow: scroll;
+  box-sizing: border-box;
+}
+

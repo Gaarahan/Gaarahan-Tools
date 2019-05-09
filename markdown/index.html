@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>在线markdown编辑预览</title>
+  <link rel="stylesheet" href="./lib/markdown-css/github-markdown.css">
+  <link rel="stylesheet" href="./source/style.css">
+  <link rel="stylesheet" href="./lib/highlight-js/pojoaque.css" type="text/css" media="all">
+</head>
+<body>
+<header>GaaraHan's markdown preview</header>
+<div class="con">
+  <label for="edit-area"></label>
+  <textarea name="edit-area"
+            id="edit-area"
+            rows="8"
+            cols="30"
+            placeholder="编辑区域"
+  ></textarea>
+  <article class="preview-area markdown-body"> </article>
+</div>
+
+<script src="./lib/marked-js/marked.min.js"></script>
+<script src="./lib/highlight-js/highlight.pack.js" charset="utf-8"></script>
+<script src="./source/main.js" charset="utf-8"></script>
+</body>
+</html>
