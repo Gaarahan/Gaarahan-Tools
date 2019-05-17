@@ -1,0 +1,59 @@
+*{
+  padding : 0;
+  margin : 0;
+}
+html,body{
+  overflow-y: hidden;
+}
+.con{
+  display : flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  justify-content: space-around;
+  align-items: center;
+  height: 100vh;
+}
+.exit-btn{
+  display: none;
+  z-index: 100;
+  position : absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  color: white;
+  font-size: 30px;
+  border: none;
+}
+
+.single-pic{
+  width: 32vw;
+  height: 32vh;
+  box-shadow: 1px 1px 1px 1px #acaaaa;
+  border-radius: 2px;
+  background-color: #585858;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.single-pic img{
+  max-width: 100%;
+  max-height: 100%;
+  pointer-events: none;
+}
+
+.preview-mode{
+  touch-action: none;
+  display: flex;
+  height: 100vh;
+  width: calc(100vw * 9);
+  align-items: center;
+  overflow: hidden;
+}
+.preview-mode.animation{
+  transition: all 1s ease-in-out;
+}
+.preview-mode .single-pic{
+  width: 100vw;
+  height: 100vh;
+  background-color: gray;
+}
