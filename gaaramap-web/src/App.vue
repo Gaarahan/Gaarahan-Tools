@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <mt-tab-container :swipeable="true" v-model="selected" class="content">
+    <mt-tab-container :swipeable="false" v-model="selected" class="content">
       <mt-tab-container-item id="tab-main">
         <Main></Main>
       </mt-tab-container-item>
@@ -26,9 +26,9 @@
 </template>
 
 <script>
-import Friends from "./Pages/Friends";
-import Main from "./Pages/Main";
-import Mine from "./Pages/Mine";
+import Friends from "./pages/Friends";
+import Main from "./pages/Main";
+import Mine from "./pages/Mine";
 
 export default {
 
@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       hasLogin: true,
-      selected: "tab-main"
+      selected: "tab-main",
     }
   },
   components: {
@@ -48,14 +48,26 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .content{
-    height: calc(100% - 50px);
-  }
-  /deep/ div.mint-tabbar{
-    height: 6vh;
+  #app{
     display: flex;
-    align-items: center;
-    position: fixed;
-    bottom: 0;
+    flex-direction: column;
+    height: 100%;
+
+    .content{
+      height: calc(100% - 6vh);
+    }
+    /deep/ div.mint-tabbar{
+      height: 6vh;
+      display: flex;
+      align-items: center;
+      position: fixed;
+      bottom: 0;
+      box-shadow: 0 0 2px 0 #a79b9b;
+    }
+
+    /deep/ .mint-tab-container-item,
+    /deep/ .mint-tab-container-wrap{
+      height: 100%;
+    }
   }
 </style>

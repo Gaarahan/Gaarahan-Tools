@@ -1,7 +1,7 @@
 import VueRouter from 'vue-router';
-import Main from '../Pages/Main.vue';
-import Friends from '../Pages/Friends.vue';
-import Mine from '../Pages/Mine.vue';
+import Main from '../pages/Main.vue';
+import Friends from '../pages/Friends.vue';
+import Mine from '../pages/Mine.vue';
 
 export default new VueRouter({
   routes: [
