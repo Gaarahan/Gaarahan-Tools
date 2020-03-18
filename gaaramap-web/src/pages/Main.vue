@@ -21,7 +21,6 @@
     getCurAttractionMessage,
     refreshCurrentAttractionSquare
   } from "../components/mapTools";
-  import attractions from "../data/attractions";
 
   export default {
     name: "Main",
@@ -35,13 +34,12 @@
         },
         geolocation: null,
         curAttrSquareId: undefined,
+        watching: false
       }
     },
     mounted() {
       this.initMap();
       this.addSwipe();
-      //TODO 绘制出一个景点，方便参考
-      refreshCurrentAttractionSquare(this.map, attractions[1]);
     },
     methods: {
       initMap() {
@@ -65,7 +63,13 @@
             zoomToAccuracy:true
           });
           this.map.addControl(this.geolocation);
-          this.geolocation.getCurrentPosition(this.onInitGeolocationComplete);
+          this.geolocation.getCurrentPosition((...argus) => {
+            this.onInitGeolocationComplete(...argus);
+            if (!this.watching) {
+              this.geolocation.watchPosition(this.onInitGeolocationComplete);
+              this.watching = true;
+            }
+          });
 
           AMap.event.addListener(this.geolocation, 'complete', geo => {
             if (geo.info === 'SUCCESS') {
@@ -73,7 +77,6 @@
             }
           });
         });
-        this.geolocation.watchPosition(this.onInitGeolocationComplete);
       },
       addSwipe() {
         const menu = this.$refs['attractionIntro'];
@@ -142,7 +145,9 @@
 
       onInitGeolocationComplete (status, geo) {
         if (status === 'error') this.onGeolocationError(geo);
-        this.changeAttractionMessage(getCurAttractionMessage(geo))
+        else {
+          this.changeAttractionMessage(getCurAttractionMessage(geo));
+        }
       },
       onGeolocationError(error) {
         switch (error.code) {
@@ -160,9 +165,13 @@
         }
       },
       changeAttractionMessage(attrMessage) {
-        if (attrMessage.id !== this.curAttrSquareId) {
+        if (attrMessage.id === 'GMAP_0') {
+          this.map.remove(this.curAttrSquareId);
+        }
+        else if (attrMessage.id !== this.curAttrSquareId) {
           this.curAttrSquareId = refreshCurrentAttractionSquare(this.map, attrMessage);
         }
+
         this.setAttractionMessage(attrMessage)
       },
       setAttractionMessage(attractionMessage) {
