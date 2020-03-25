@@ -6,7 +6,7 @@
     </header>
     <div class="contacts">
       <mt-cell v-for="(itm, i) in friends" :title="itm" icon="more" :key="i">
-        <img slot="icon" src="../assets/logo.png"
+        <img slot="icon" src="../../assets/logo.png"
              width="200" height="200"
              class="friends-head-img"
              alt="friend-head-img"

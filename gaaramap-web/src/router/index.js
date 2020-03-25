@@ -1,13 +1,25 @@
 import VueRouter from 'vue-router';
-import Main from '../pages/Main.vue';
-import Friends from '../pages/Friends.vue';
-import Mine from '../pages/Mine.vue';
+import MainActivity from "../pages/MainActivity/MainActivity";
+import LogIn from "../pages/Account/LogIn";
+import SignIn from "../pages/Account/SignIn";
+import Account from "../pages/Account/Account";
+import EditProfile from "../pages/EditProfile/EditProfile";
+import Setting from "../pages/Setting/Setting";
 
 export default new VueRouter({
   routes: [
-    {path: '/', redirect: '/main'},
-    {path: '/main', component: Main},
-    {path: '/friends', component: Friends},
-    {path: '/mine', component: Mine},
+    { path: '/', redirect: '/account/login' },
+    { path: '/main', name: 'main', component: MainActivity },
+    {
+      path: '/account',
+      component: Account,
+      children: [
+        {path: 'login', name: "login", component:LogIn },
+        {path: 'signin', name: "signin", component: SignIn},
+      ]
+
+    },
+    { path: '/editProfile', name: 'edit', component: EditProfile },
+    { path: '/setting', name: 'setting', component: Setting }
   ]
 })

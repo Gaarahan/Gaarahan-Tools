@@ -4,7 +4,7 @@
     <div class="menu" ref="attractionIntro">
       <span class="up-btn"></span>
       <div class="micro-intro">
-        <img src="../assets/gaaramap-logo.png" alt="logo" class="logo">
+        <img src="../../assets/gaaramap-logo.png" alt="logo" class="logo">
         <p class="intro"> {{curAttractionIntro.name}}</p>
       </div>
       <p class="complete-intro">{{curAttractionIntro.description}}</p>
@@ -13,14 +13,14 @@
 </template>
 
 <script>
-  import {MessageBox, Toast} from "mint-ui";
+  import {Toast} from "mint-ui";
   import Hammer from 'hammerjs';
   import anime from 'animejs';
   import AMap from 'AMap';
   import {
     getCurAttractionMessage,
     refreshCurrentAttractionSquare
-  } from "../components/mapTools";
+  } from "../../components/mapTools";
 
   export default {
     name: "Main",
@@ -144,7 +144,7 @@
       },
 
       onInitGeolocationComplete (status, geo) {
-        if (status === 'error') this.onGeolocationError(geo);
+        if (status !== 'complete') this.onGeolocationError(geo);
         else {
           this.changeAttractionMessage(getCurAttractionMessage(geo));
         }
@@ -152,15 +152,27 @@
       onGeolocationError(error) {
         switch (error.code) {
           case 1 : {
-            MessageBox.alert('您拒绝了获取位置的请求，应用无法正常运行', "错误");
+            Toast({
+              message: '您拒绝了获取位置的请求，应用无法正常运行',
+              position: 'bottom',
+              duration: 5000
+            });
             break;
           }
           case 3 : {
-            MessageBox.alert('获取位置超时，请检查权限', "错误");
+            Toast({
+              message: '获取位置超时，请检查权限',
+              position: 'bottom',
+              duration: 5000
+            });
             break;
           }
           default : {
-            MessageBox.alert('获取位置失败，请检查您的设备', "错误");
+            Toast({
+              message: '获取位置失败，请检查您的设备',
+              position: 'bottom',
+              duration: 5000
+            });
           }
         }
       },

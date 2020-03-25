@@ -2,19 +2,20 @@
   <div>
     <div class="header">
       <img src="../assets/logo.png" alt="head-pic" class="head-pic">
-      <p class="user-name">Gaarahan</p>
-    </div>
-    <div class="func">
-      <mt-cell :is-link="true" title="修改资料" :to="{name: 'edit'}"></mt-cell>
-      <mt-cell :is-link="true" title="设置中心" :to="{name: 'setting'}"></mt-cell>
-      <mt-cell :is-link="true" title="关于应用" :to="{name: 'about'}"></mt-cell>
+      <router-link
+          v-if="!hasLogin"
+          :to="{name: 'login'}"
+          id="to-account"
+      >登录/注册</router-link>
+      <p v-else class="user-name">Gaarahan</p>
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: "UserHeader"
+    name: "UserHeader",
+    props: ['hasLogin'],
   }
 </script>
 
@@ -30,6 +31,10 @@
     align-items: center;
     justify-content: center;
 
+    #to-account {
+      text-decoration: none;
+      color: white;
+    }
     .head-pic{
       height: 10vh;
       border:1px solid gainsboro;

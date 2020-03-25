@@ -7,3 +7,22 @@ html, body{
   margin: 0;
   padding: 0;
 }
+
+/*change the default style of components*/
+.el-form-item__label{
+  font-weight: 700;
+}
+.el-form-item{
+  margin-bottom: 1em!important;
+}
+{
+
+}
+.el-input--small input{
+  border-radius: 0;
+  border: none;
+  border-bottom: rgba(174, 179, 189, 0.71) 2px solid;
+}
+.el-input--small input:focus{
+  border-bottom: #009683 2px solid;
+}
