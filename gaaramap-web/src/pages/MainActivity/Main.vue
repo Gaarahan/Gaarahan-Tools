@@ -142,7 +142,6 @@
           }
         })
       },
-
       onInitGeolocationComplete (status, geo) {
         if (status !== 'complete') this.onGeolocationError(geo);
         else {
