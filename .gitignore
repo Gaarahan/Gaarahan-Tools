@@ -1,4 +1,5 @@
-node_modules/
+### custom
+./gaaramap-server/data/*
 .idea/
 .vscode/
 ### Node template

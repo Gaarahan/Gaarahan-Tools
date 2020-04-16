@@ -9,7 +9,8 @@ async function resolveException (ctx, next) {
         message: e.message
       }
     } else {
-      console.log('runtime error')
+      console.log('runtime error: ')
+      console.log(e)
     }
   }
 }

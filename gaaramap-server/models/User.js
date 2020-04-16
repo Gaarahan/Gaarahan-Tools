@@ -1,3 +1,5 @@
+const md5 = require('md5')
+
 class User {
   constructor ({ id, username, password, email, registerTime }) {
     this._username = username
@@ -12,6 +14,15 @@ class User {
       username: this.username,
       email: this.email,
       registerTime: this.registerTime
+    }
+  }
+
+  getRegisterInfo () {
+    return {
+      username: this.username,
+      email: this.email,
+      registerTime: new Date().getTime(),
+      password: md5(this.password)
     }
   }
 
@@ -33,6 +44,14 @@ class User {
 
   get email () {
     return this._email
+  }
+
+  set password (value) {
+    this._password = value
+  }
+
+  set registerTime (value) {
+    this._registerTime = value
   }
 }
 

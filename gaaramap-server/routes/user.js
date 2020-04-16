@@ -4,9 +4,9 @@ const CustomError = require('../utils/CustomError')
 class User {
   login (ctx, next) {
     const loginInfo = ctx.request.body
-    const User = UserService.login(loginInfo)
-    ctx.session.userId = User.id
-    ctx.body = Object.assign({}, User.getInfo(), {
+    const user = UserService.login(loginInfo)
+    ctx.session.userId = user.id
+    ctx.body = Object.assign({}, user.getInfo(), {
       status: 'success'
     })
     next()
@@ -17,8 +17,8 @@ class User {
     if (!userId || userId < 0) {
       throw new CustomError('ID不能为空或负值')
     }
-    const User = UserService.getInfoByID(userId)
-    ctx.body = Object.assign({}, User.getInfo(), {
+    const user = UserService.getInfoByID(userId)
+    ctx.body = Object.assign({}, user.getInfo(), {
       status: 'success'
     })
     next()
@@ -30,9 +30,23 @@ class User {
       status: 'success',
       message: 'logout success'
     }
+    next()
   }
 
-  signin (ctx, next) {
+  signIn (ctx, next) {
+    const signInInfo = ctx.request.body
+    const res = UserService.signIn(signInInfo)
+    if (res) {
+      ctx.body = {
+        status: 'success',
+        message: 'sign in success'
+      }
+    } else {
+      ctx.body = {
+        status: 'fail',
+        message: 'sign in fail'
+      }
+    }
     next()
   }
 }
