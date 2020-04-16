@@ -1,14 +1,14 @@
 const Koa = require('koa')
 const bodyParser = require('koa-bodyparser')
-const rt = require('koa-rt')
 
 const router = require('./routes')
+const session = require('koa-session')
 
 const app = new Koa()
-
-app.use(rt)
+app.keys = ['gaarahan']
 
 app
+  .use(session(app))
   .use(bodyParser())
   .use(router.routes())
   .use(router.allowedMethods())
