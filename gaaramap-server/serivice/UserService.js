@@ -23,10 +23,10 @@ class UserService {
     return new User(result)
   }
 
-  getInfoByID (id) {
-    const result = DatabaseService.queryUserByID(id)
+  getInfoByName (name) {
+    const result = DatabaseService.queryUserByUsername(name)
     if (!result) {
-      throw new CustomError(`找不到对应ID的用户,请检查用户ID: ${id}`)
+      throw new CustomError('找不到对应用户,请检查username')
     }
 
     return new User(result)
@@ -53,8 +53,15 @@ class UserService {
     if (validateErrors.length) {
       throw new CustomError('注册字段不匹配，请按前端要求来')
     }
+    if (this.isNameExisted(info.username)) {
+      throw new CustomError('该昵称已被占用')
+    }
     const user = new User(info)
     return DatabaseService.appendUser(user)
+  }
+
+  isNameExisted (name) {
+    return DatabaseService.isNameExist(name)
   }
 }
 

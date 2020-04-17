@@ -1,11 +1,10 @@
 const UserService = require('../serivice/UserService')
-const CustomError = require('../utils/CustomError')
 
 class User {
   login (ctx, next) {
     const loginInfo = ctx.request.body
     const user = UserService.login(loginInfo)
-    ctx.session.userId = user.id
+    ctx.session.username = user.username
     ctx.body = Object.assign({}, user.getInfo(), {
       status: 'success'
     })
@@ -13,11 +12,8 @@ class User {
   }
 
   getInfo (ctx, next) {
-    const userId = ctx.session.userId
-    if (!userId || userId < 0) {
-      throw new CustomError('ID不能为空或负值')
-    }
-    const user = UserService.getInfoByID(userId)
+    const username = ctx.session.username
+    const user = UserService.getInfoByName(username)
     ctx.body = Object.assign({}, user.getInfo(), {
       status: 'success'
     })
@@ -45,6 +41,22 @@ class User {
       ctx.body = {
         status: 'fail',
         message: 'sign in fail'
+      }
+    }
+    next()
+  }
+
+  isNameExisted (ctx, next) {
+    const username = ctx.request.query.username
+    if (UserService.isNameExisted(username)) {
+      ctx.body = {
+        status: 'fail',
+        message: 'username existed'
+      }
+    } else {
+      ctx.body = {
+        status: 'success',
+        message: 'username can be use'
       }
     }
     next()

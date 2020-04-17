@@ -6,23 +6,20 @@ const path = require('path')
 class DatabaseService {
   constructor (database) {
     this._database = database || {
-      users: []
+      users: {}
     }
   }
 
   queryUserByUsername (name) {
-    return this.database.users.find(itm => {
-      return itm.username === name
+    return Object.keys(this.database.users).find(itm => {
+      return itm === name
     }) || null
   }
 
-  queryUserByID (id) {
-    return this.database.users.find(itm => {
-      return itm.id === id
-    }) || null
+  isNameExist (name) {
+    return Object.keys(this.database.users).includes(name)
   }
 
-  // TODO 将内存中的数据写入存储中
   writeDatabase () {
     try {
       fs.writeFileSync(path.join(__dirname, '../data/database.json'), JSON.stringify(this.database))
