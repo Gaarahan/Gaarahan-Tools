@@ -1,6 +1,6 @@
 <template>
   <div>
-   <img
+    <img
         src="../../assets/login-background.jpg"
         alt="login-background"
         class="login-background"
@@ -40,15 +40,19 @@
           <img ref="login-img" src="../../assets/drawn.jpg" alt="login-img">
         </div>
       </div>
-      <mt-button id='submit-btn' ref="submit-btn" @click.native="onSubmit" size="large">登录</mt-button>
+      <mt-button id='submit-btn' ref="submit-btn"
+                 @click.native="onSubmit" size="large"
+                 :disabled="loginBtnDisabled"
+      >登录</mt-button>
     </div>
   </div>
 </template>
 
 <script>
+  import service from "../../service";
+  import { Toast } from 'mint-ui';
   const drawn = require('../../assets/drawn.jpg');
   const muffle = require('../../assets/muffle-eyes.jpg');
-  import { Toast } from 'mint-ui';
 
   export default {
     name: "LogIn",
@@ -65,7 +69,8 @@
           password: [
             { required: true, message: '没有密码不让进', trigger: 'blur' },
           ],
-        }
+        },
+        loginBtnDisabled: false
       }
     },
     mounted() {
@@ -84,21 +89,42 @@
         this.$refs.loginForm.validate(res => {
           if(!res) return false;
 
-          this.$refs['submit-btn'].disabled = true;
-          const loginMes = this.login();
-          if(!loginMes.status) {
-            this.$refs['submit-btn'].disabled = false;
-            Toast({
-              message: loginMes.message?loginMes.message:'登录失败，请重试',
-              position: 'bottom',
-            })
-          }
+          this.loginBtnDisabled = true;
+          service.login(this.$refs['loginForm'].model)
+              .then( loginMes => {
+                if (loginMes.data.status === 'fail') {
+                  this.loginBtnDisabled = false;
+                  throw new Error(loginMes.data.message);
+                } else {
+                  Toast({
+                    message: '登录成功',
+                    position: 'bottom',
+                  });
+                  const {friends} = loginMes.data;
+                  const userInfo = Object.assign({}, loginMes.data);
+                  Reflect.deleteProperty(userInfo, 'friends');
+                  setTimeout( () => {
+                    this.$router.push({
+                      name: 'main',
+                      params: {
+                        selected: 'tab-mine',
+                        hasLogin: true,
+                        userInfo,
+                        friends
+                      }
+                    });
+                  }, 500);
+                }
+              })
+              .catch( e => {
+                Toast({
+                  message: e.message || '登录失败，请重试',
+                  position: 'bottom'
+                });
+                this.loginBtnDisabled = false;
+              })
         });
-      },
-      login() {
-        // TODO 登录，请求后台
-        return false;
-      },
+      }
     },
   }
 </script>

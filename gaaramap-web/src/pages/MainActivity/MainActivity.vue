@@ -5,10 +5,10 @@
         <Main></Main>
       </mt-tab-container-item>
       <mt-tab-container-item id="tab-friends">
-        <Friends :hasLogin="hasLogin"></Friends>
+        <Friends></Friends>
       </mt-tab-container-item>
       <mt-tab-container-item id="tab-mine">
-        <Mine :hasLogin="hasLogin"></Mine>
+        <Mine></Mine>
       </mt-tab-container-item>
     </mt-tab-container>
     <mt-tabbar v-model="selected">
@@ -34,7 +34,6 @@
     name: 'MainActivity',
     data() {
       return {
-        hasLogin: false,
         selected: "tab-main",
       }
     },

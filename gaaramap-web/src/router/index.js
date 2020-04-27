@@ -8,7 +8,7 @@ import Setting from "../pages/Setting/Setting";
 
 export default new VueRouter({
   routes: [
-    { path: '/', redirect: '/account/login' },
+    { path: '/', redirect: '/main' },
     { path: '/main', name: 'main', component: MainActivity },
     {
       path: '/account',

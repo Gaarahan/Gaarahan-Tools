@@ -6,11 +6,11 @@
   "description": "server for gaara-map",
   "license": "MIT",
   "scripts": {
-    "start": "node index.js",
-    "nodemon": "nodemon index.js",
-    "inspect": "node --inspect-brk index.js"
+    "start": "nodemon index.js",
+    "inspect": "nodemon --inspect-brk index.js"
   },
   "dependencies": {
+    "@koa/cors": "^2.2.3",
     "@koa/router": "^9.0.0",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.3.0",

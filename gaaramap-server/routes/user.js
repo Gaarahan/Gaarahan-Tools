@@ -11,12 +11,22 @@ class User {
     next()
   }
 
-  getInfo (ctx, next) {
+  /**
+   * 获取friends以及用户资料
+   */
+  getAllInfo (ctx, next) {
     const username = ctx.session.username
-    const user = UserService.getInfoByName(username)
-    ctx.body = Object.assign({}, user.getInfo(), {
-      status: 'success'
-    })
+    if (!username) {
+      ctx.body = {
+        status: 'fail',
+        message: 'no login'
+      }
+    } else {
+      const user = UserService.getInfoByName(username)
+      ctx.body = Object.assign({}, user.getInfo(), {
+        status: 'success'
+      })
+    }
     next()
   }
 

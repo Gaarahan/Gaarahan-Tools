@@ -43,12 +43,13 @@
         ></el-input>
       </el-form-item>
     </el-form>
-    <mt-button id='submit-btn' ref="submit-btn" @click.native="onSubmit" size="large">立即注册</mt-button>
+    <mt-button id='submit-btn' ref="submit-btn" :disabled="signInBtnDisabled" @click.native="onSubmit" size="large">立即注册</mt-button>
   </div>
 </template>
 
 <script>
   import {Toast} from "mint-ui";
+  import service from '../../service'
 
   export default {
     name: "SignIn",
@@ -89,7 +90,8 @@
             { required: true, message: '邮箱呢?', trigger: 'blur' },
             { pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, message: '这个邮箱格式好像不对呀', trigger: 'blur' }
           ]
-        }
+        },
+        signInBtnDisabled: false
       }
     },
     methods: {
@@ -97,20 +99,37 @@
         this.$refs['signinForm'].validate( res => {
           if(!res) return false;
 
-          this.$refs['submit-btn'].disabled = true;
-          const loginMes = this.signIn();
-          if(!loginMes.status) {
-            this.$refs['submit-btn'].disabled = false;
+          this.signInBtnDisabled = true;
+          this.signIn(this.$refs['signinForm'].model)
+          .then(
+              loginMes => {
+                if (loginMes.data.status === 'fail') {
+                  this.signInBtnDisabled = false;
+                  throw new Error(loginMes.data.message);
+                } else {
+                  Toast({
+                    message: '注册成功,请登录',
+                    position: 'bottom',
+                  });
+                  setTimeout( () => {
+                    this.$router.push({name: 'login'})
+                  }, 500);
+                }
+              }
+          )
+          .catch(e => {
             Toast({
-              message: loginMes.message?loginMes.message:'注册失败，请重试',
+              message: e.message || '注册失败，请重试',
               position: 'bottom',
-            })
-          }
+            });
+            this.signInBtnDisabled = false;
+          })
         });
-        return false;
       },
-      signIn() {
-        return false;
+      signIn(info) {
+        const mes = Object.assign({}, info);
+        Reflect.deleteProperty(mes, "secPassword");
+        return service.signIn(mes)
       }
     },
   }

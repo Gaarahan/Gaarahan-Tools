@@ -5,10 +5,17 @@
       <span class="search">搜索</span>
     </header>
     <div class="contacts">
+      <mt-cell title="添加新朋友" icon="more">
+        <img slot="icon" src="../../assets/add-friends.png"
+             width="200" height="200"
+             class="head-img"
+             alt="add-head-img"
+        >
+      </mt-cell>
       <mt-cell v-for="(itm, i) in friends" :title="itm" icon="more" :key="i">
         <img slot="icon" src="../../assets/logo.png"
              width="200" height="200"
-             class="friends-head-img"
+             class="head-img"
              alt="friend-head-img"
         >
       </mt-cell>
@@ -17,12 +24,14 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
   export default {
     name: "Friends",
-    data() {
-      return {
-        friends: ['gaara', 'han', 'zhao', 'feng','gaara', 'han', 'zhao', 'feng','gaara', 'han', 'zhao', 'feng','gaara', 'han', 'zhao', 'feng','gaara', 'han', 'zhao', 'feng','gaara', 'han', 'zhao', 'feng']
-      }
+    computed: {
+      ...mapState([
+          'friends',
+          "hasLogin"
+      ])
     }
   }
 </script>
@@ -50,7 +59,7 @@
       width: 100vw;
       overflow: auto;
 
-      .friends-head-img{
+      .head-img{
         width: 20px;
         height: 20px;
       }

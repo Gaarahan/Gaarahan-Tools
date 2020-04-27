@@ -11,9 +11,7 @@ class DatabaseService {
   }
 
   queryUserByUsername (name) {
-    return Object.keys(this.database.users).find(itm => {
-      return itm === name
-    }) || null
+    return this.database.users[name] || null
   }
 
   isNameExist (name) {
@@ -31,9 +29,11 @@ class DatabaseService {
 
   appendUser (user) {
     const userData = Object.assign({}, user.getRegisterInfo(), {
-      id: this.database.users.length + 1
+      id: Object.keys(this.database.users).length + 1
     })
-    this.database.users.push(userData)
+    Object.assign(this.database.users, {
+      [userData.username]: userData
+    })
     return this.writeDatabase()
   }
 

@@ -1,21 +1,27 @@
 <template>
   <div>
     <div class="header">
-      <img src="../assets/logo.png" alt="head-pic" class="head-pic">
+      <img alt="head-pic" src="../assets/logo.png" ref="headPic" class="head-pic">
       <router-link
           v-if="!hasLogin"
           :to="{name: 'login'}"
           id="to-account"
       >登录/注册</router-link>
-      <p v-else class="user-name">Gaarahan</p>
+      <p v-else class="user-name">{{username}}</p>
     </div>
   </div>
 </template>
 
 <script>
+  const defaultHeadPic = require('../assets/logo.png');
   export default {
     name: "UserHeader",
-    props: ['hasLogin'],
+    props: ['hasLogin', "username", "headPic"],
+    watch: {
+      headPic (val) {
+        this.$refs.headPic.setAttribute('src', val || defaultHeadPic)
+      }
+    }
   }
 </script>
 
@@ -44,7 +50,9 @@
     .user-name{
       font-size: 20px;
       margin-top: 1vh;
-      text-shadow: 0 0 6px white;
+      text-shadow: -1px -1px 0px white;
+      background-color: #f0f8ff4d;
+      border-radius: 5px;
     }
   }
 </style>
