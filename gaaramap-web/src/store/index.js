@@ -1,5 +1,6 @@
 import Vuex from 'vuex';
 import Vue from "vue";
+import service from "../service";
 
 Vue.use(Vuex);
 
@@ -12,6 +13,14 @@ export default new Vuex.Store({
     },
     friends: [],
     hasLogin: false
+  },
+  getters: {
+    profileForm: state => {
+      const dateTime = new Date(state.userInfo.registerTime);
+      return Object.assign({
+        dateString: `${dateTime.getFullYear()}-${dateTime.getMonth() + 1}-${dateTime.getDay()} ${dateTime.getHours().toString().padStart(2, '0')}:${dateTime.getMinutes().toString().padStart(2, '0')}`,
+      }, state.userInfo)
+    }
   },
   mutations: {
     setLoginInfo (state, val) {
@@ -27,6 +36,17 @@ export default new Vuex.Store({
         email: ''
       };
       state.friends = [];
+    }
+  },
+  actions: {
+    async login({commit}, mes) {
+      const res = await service.login(mes);
+      if (res.data.status === 'fail') {
+        this.loginBtnDisabled = false;
+        throw new Error(res.data.message);
+      }
+      commit('setLoginInfo', res.data)
+
     }
   }
 })

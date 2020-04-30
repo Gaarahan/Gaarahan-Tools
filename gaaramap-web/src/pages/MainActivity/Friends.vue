@@ -5,15 +5,20 @@
       <span class="search">搜索</span>
     </header>
     <div class="contacts">
-      <mt-cell title="添加新朋友" icon="more">
+      <mt-cell
+          title="添加新朋友"
+          :is-link="hasLogin"
+          :class="{disabled: !hasLogin}"
+          icon="more">
         <img slot="icon" src="../../assets/add-friends.png"
              width="200" height="200"
              class="head-img"
              alt="add-head-img"
         >
+        <router-link v-if="!hasLogin" :to="{name: 'login'}">请登录</router-link>
       </mt-cell>
       <mt-cell v-for="(itm, i) in friends" :title="itm" icon="more" :key="i">
-        <img slot="icon" src="../../assets/logo.png"
+        <img slot="icon" src="../../assets/defaultHeadPic.png"
              width="200" height="200"
              class="head-img"
              alt="friend-head-img"
@@ -59,7 +64,10 @@
       width: 100vw;
       overflow: auto;
 
-      .head-img{
+      /deep/ .disabled .mint-cell-text {
+        color: gray;
+      }
+      .head-img {
         width: 20px;
         height: 20px;
       }

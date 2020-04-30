@@ -53,7 +53,4 @@
 </script>
 
 <style scoped>
-  .header {
-    background-color: #009688;
-  }
 </style>

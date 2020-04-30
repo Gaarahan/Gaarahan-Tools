@@ -5,6 +5,7 @@ import SignIn from "../pages/Account/SignIn";
 import Account from "../pages/Account/Account";
 import EditProfile from "../pages/EditProfile/EditProfile";
 import Setting from "../pages/Setting/Setting";
+import About from "../pages/About/About";
 
 export default new VueRouter({
   routes: [
@@ -19,7 +20,9 @@ export default new VueRouter({
       ]
 
     },
+
     { path: '/editProfile', name: 'edit', component: EditProfile },
-    { path: '/setting', name: 'setting', component: Setting }
+    { path: '/setting', name: 'setting', component: Setting },
+    { path: '/about', name: 'about', component: About }
   ]
 })

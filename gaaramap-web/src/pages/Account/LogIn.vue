@@ -49,10 +49,10 @@
 </template>
 
 <script>
-  import service from "../../service";
   import { Toast } from 'mint-ui';
   const drawn = require('../../assets/drawn.jpg');
   const muffle = require('../../assets/muffle-eyes.jpg');
+  import { mapActions } from 'vuex'
 
   export default {
     name: "LogIn",
@@ -81,6 +81,7 @@
       }
     },
     methods: {
+      ...mapActions(['login']),
       changeLoginImg(signal) {
         const img = signal === 'drawn'?drawn:muffle;
         this.$refs['login-img'].setAttribute('src', img);
@@ -90,39 +91,28 @@
           if(!res) return false;
 
           this.loginBtnDisabled = true;
-          service.login(this.$refs['loginForm'].model)
-              .then( loginMes => {
-                if (loginMes.data.status === 'fail') {
-                  this.loginBtnDisabled = false;
-                  throw new Error(loginMes.data.message);
-                } else {
-                  Toast({
-                    message: '登录成功',
-                    position: 'bottom',
+          this.login(this.$refs['loginForm'].model)
+              .then(() => {
+                Toast({
+                  message: '登录成功',
+                  position: 'bottom',
+                });
+                setTimeout( () => {
+                  this.$router.push({
+                    name: 'main',
+                    props: {
+                      selected: 'tab-mine',
+                    }
                   });
-                  const {friends} = loginMes.data;
-                  const userInfo = Object.assign({}, loginMes.data);
-                  Reflect.deleteProperty(userInfo, 'friends');
-                  setTimeout( () => {
-                    this.$router.push({
-                      name: 'main',
-                      params: {
-                        selected: 'tab-mine',
-                        hasLogin: true,
-                        userInfo,
-                        friends
-                      }
-                    });
-                  }, 500);
-                }
+                }, 500);
               })
-              .catch( e => {
+              .catch(e => {
                 Toast({
                   message: e.message || '登录失败，请重试',
                   position: 'bottom'
                 });
                 this.loginBtnDisabled = false;
-              })
+              });
         });
       }
     },

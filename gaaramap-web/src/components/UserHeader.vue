@@ -1,7 +1,11 @@
 <template>
   <div>
     <div class="header">
-      <img alt="head-pic" src="../assets/logo.png" ref="headPic" class="head-pic">
+      <img
+          alt="head-pic"
+          ref="headPic"
+          class="head-pic"
+          src="">
       <router-link
           v-if="!hasLogin"
           :to="{name: 'login'}"
@@ -13,14 +17,22 @@
 </template>
 
 <script>
-  const defaultHeadPic = require('../assets/logo.png');
+  const defaultHeadPic = require('../assets/defaultHeadPic.png');
   export default {
     name: "UserHeader",
     props: ['hasLogin', "username", "headPic"],
     watch: {
       headPic (val) {
+        this.setHeadPic(val)
+      }
+    },
+    methods: {
+      setHeadPic (val) {
         this.$refs.headPic.setAttribute('src', val || defaultHeadPic)
       }
+    },
+    mounted() {
+      this.setHeadPic(this.headPic || defaultHeadPic)
     }
   }
 </script>
